@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Article;
 use App\Form\ArticleType;
 use App\Repository\ArticleRepository;
+use App\Service\FileUploader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,17 +24,31 @@ class AdminArticleController extends AbstractController
 
     #[Route('/new', name: 'app_admin_article_new', methods: ['GET', 'POST'])]
     #[Route('/{id}/edit', name: 'app_admin_article_edit', methods: ['GET', 'POST'])]
-    public function new(Article $article=null, Request $request, ArticleRepository $articleRepository): Response
+    public function new(Article $article=null, Request $request, FileUploader $fileUploader, ArticleRepository $articleRepository): Response
     {
         if($article == null)
             $article = new Article();
 
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
-
+        //dd($article);
         if ($form->isSubmitted() && $form->isValid()) {
             // Uploader les images reçues
-            //$fileUploader->upload($pictureFile, 'article')
+            //
+            $pictures = $article->getPictures();
+
+            if ($pictures) {
+                foreach($pictures as $picture)
+                {
+                    if(!empty($picture->getFileUpload()))
+                    {
+                        $filename = $fileUploader->upload($picture->getFileUpload(), 'article');
+
+                        $picture->setFile($filename);
+                    }
+                    $picture->setArticle($article);
+                }
+            }
 
             $articleRepository->save($article, true);
 

@@ -21,7 +21,7 @@ class Article
     #[ORM\Column]
     private ?float $price = null;
 
-    #[ORM\OneToMany(mappedBy: 'article', targetEntity: Picture::class)]
+    #[ORM\OneToMany(mappedBy: 'article', targetEntity: Picture::class, cascade: ['persist'])]
     private Collection $pictures;
 
     #[ORM\ManyToOne(inversedBy: 'articles')]

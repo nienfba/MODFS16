@@ -33,7 +33,7 @@ class ArticleType extends AbstractType
                 'prototype'            => true,
                 'allow_add'            => true,
                 'allow_delete'        => true,
-                'by_reference'         => false,
+                //'by_reference'         => false,
                 'required'            => false,
                 'label'            => false,
                 'entry_options' => [

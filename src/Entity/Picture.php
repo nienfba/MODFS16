@@ -2,8 +2,9 @@
 
 namespace App\Entity;
 
-use App\Repository\PictureRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\PictureRepository;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 #[ORM\Entity(repositoryClass: PictureRepository::class)]
 class Picture
@@ -19,7 +20,9 @@ class Picture
     #[ORM\Column(length: 255)]
     private ?string $file = null;
 
-    #[ORM\ManyToOne(inversedBy: 'pictures')]
+    private ?UploadedFile $fileUpload = null;
+
+    #[ORM\ManyToOne(inversedBy: 'pictures', cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Article $article = null;
 
@@ -60,6 +63,24 @@ class Picture
     public function setArticle(?Article $article): self
     {
         $this->article = $article;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of fileUpload
+     */
+    public function getFileUpload(): ?UploadedFile
+    {
+        return $this->fileUpload;
+    }
+
+    /**
+     * Set the value of fileUpload
+     */
+    public function setFileUpload(?UploadedFile $fileUpload): self
+    {
+        $this->fileUpload = $fileUpload;
 
         return $this;
     }

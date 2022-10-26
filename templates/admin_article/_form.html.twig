@@ -5,14 +5,15 @@
     {{ form_row(form.price) }}
     {{ form_row(form.owner) }}
 
-    <h2>Pictures <button data-action="picture#add" class="btn btn-primary">+</button></h2>
+    <h2>Pictures <button data-action="picture#add:prevent" class="btn btn-primary">+</button></h2>
     <div data-picture-target="prototype" data-prototype="{{ form_widget(form.pictures.vars.prototype)|e }}"></div>
 
     <div data-picture-target="pictures">
     {% for picture in form.pictures %}
     
-        {{ form_errors(picture) }}
-        {{ form_widget(picture) }}
+        {{ form_row(picture.title) }}
+        <img src="{{ asset('uploads/article/'~ picture.vars.value.file) }}" width="150">
+        {{ dump(picture.vars.value) }}
 
     {% endfor %}
     </div>
