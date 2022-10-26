@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\PictureRepository;
+use Symfony\Component\Serializer\Annotation\Ignore;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 #[ORM\Entity(repositoryClass: PictureRepository::class)]
@@ -20,10 +21,12 @@ class Picture
     #[ORM\Column(length: 255)]
     private ?string $file = null;
 
+    #[Ignore]
     private ?UploadedFile $fileUpload = null;
 
     #[ORM\ManyToOne(inversedBy: 'pictures', cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: false)]
+    #[Ignore]
     private ?Article $article = null;
 
     public function getId(): ?int

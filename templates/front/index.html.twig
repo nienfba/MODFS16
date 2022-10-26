@@ -1,22 +1,19 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello FrontController!{% endblock %}
+{% block title %}Le coin opposé !{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <div class="row" data-controller="favorite">
+    {% for article in articles %}
+        <div class="col-lg-4">
+            <h2>{{ article.name }}<span class="badge bg-secondary">{{ article.price }} €</span></h2>
+            <img class="img-fluid" src="{{ asset('uploads/article/'~article.pictures[0].file) }}">
+            <button class="btn {% if article.id in favorites %}btn-success{% else %}btn-light{% endif %}" data-url="{{ path('add_favorite',{id:article.id}) }}" data-action="favorite#add"><i class="icon-heart"></i></button>
+        </div>
+    {% endfor %}
+    </div>
 
-<div data-controller="love" class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    <button data-action="click->love#clickLove" data-love-target="button"><i class="icon-heart"></i></button>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'F:/_User/Bureau/Laragon/www/3WA-MOD-FS16/src/Controller/FrontController.php'|file_link(0) }}">src/Controller/FrontController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'F:/_User/Bureau/Laragon/www/3WA-MOD-FS16/templates/front/index.html.twig'|file_link(0) }}">templates/front/index.html.twig</a></code></li>
-    </ul>
+    
+   
 </div>
 {% endblock %}

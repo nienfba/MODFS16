@@ -13,7 +13,6 @@
     
         {{ form_row(picture.title) }}
         <img src="{{ asset('uploads/article/'~ picture.vars.value.file) }}" width="150">
-        {{ dump(picture.vars.value) }}
 
     {% endfor %}
     </div>
